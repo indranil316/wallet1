@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack",
+    "start": "webpack-dev-server --mode development --open"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,15 @@
     "web3"
   ],
   "author": "Indranil Karmakar",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@solana/web3.js": "^1.73.3",
+    "css-loader": "^6.7.3",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^4.11.1"
+  }
 }
