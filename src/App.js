@@ -13,6 +13,8 @@ export default function App() {
     },[])
 
     return (
-        <div>balance = {state.balance}</div>
+        <div>
+            <h1>Nigga write HTML here</h1>
+        </div>
     )
 }
