@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const dotenv = require('dotenv-webpack');
+const webpack = require('webpack');
 
 module.exports={
     entry:"./src/index.js",
@@ -10,7 +12,14 @@ module.exports={
     plugins:[
         new HtmlWebpackPlugin({
             template:path.join(__dirname,'public','index.html')
-        })
+        }),
+        new dotenv(),
+        new webpack.ProvidePlugin({
+            Buffer:['buffer','Buffer']
+        }),
+        new webpack.ProvidePlugin({
+            process: 'process/browser',
+        }),
     ],
     module:{
         rules:[
@@ -30,10 +39,14 @@ module.exports={
     },
     resolve:{
         extensions: ["*", ".js", ".jsx"],
+        fallback: {
+            "stream": require.resolve("stream-browserify"),
+            "buffer": require.resolve("buffer")
+        }
     },
     devServer:{
         static:{
-            directory:path.join(__dirname,'build')
+            directory:path.join(__dirname,'public')
         },
         compress:true,
         port:3000
