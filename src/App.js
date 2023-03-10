@@ -1,18 +1,37 @@
 import React, { useEffect, useState } from 'react';
+import {createNewWeb3Connection, PRIVATE_KEY} from './core';
+import {BrowserRouter} from 'react-router-dom';
 import './css/style.css';
-import {getBalanceUsingWeb3} from './core';
-import addresses from './data/addresses.json';
+
+import GetBalance from './components/GetBalance';
+import TransferSol from './components/TransferSol';
+import { Keypair } from '@solana/web3.js';
+
 
 export default function App() {  
-    const [state,setState] = useState({});   
+    const [publicKey, setPubllicKey] = useState(null);
+    const [connection,setConnection] = useState(null);
+
     useEffect(function(){
-        getBalanceUsingWeb3(addresses.soladdr1)
-        .then(bal=>{
-            setState({...state,balance:bal})
-        })
+        setPubllicKey(Keypair.fromSecretKey(Uint8Array.from(PRIVATE_KEY)).publicKey)
+        const connection = createNewWeb3Connection();
+        setConnection(connection)
+        // connection.requestAirdrop();
     },[])
 
+    if(connection===null && publicKey===null){
+        return (
+            <div>
+              creating connection...   
+            </div>
+        )
+    }
     return (
-        <div>balance = {state.balance}</div>
+        <div>
+            <BrowserRouter>
+                <GetBalance publicKey={publicKey} connection={connection}/>
+                <TransferSol publicKey={publicKey} connection={connection}/> 
+            </BrowserRouter>
+        </div>
     )
 }
